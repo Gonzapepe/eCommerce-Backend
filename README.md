@@ -12,7 +12,7 @@ npm run typeorm migration:generate -- -n NameOfTheMigration
 
 And ensure you have synchronize set to false in ormconfig.ts
 
-# .env Variables needed
+## .env Variables needed
 
 - NODE_ENV
 - PORT
@@ -22,6 +22,6 @@ And ensure you have synchronize set to false in ormconfig.ts
 - POSTGRES_DB
 - JWT_SECRET
 
-# Commits
+## Commits
 
 Commits must meet [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
