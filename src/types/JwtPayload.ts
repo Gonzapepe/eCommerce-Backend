@@ -5,5 +5,5 @@ export type JwtPayload = {
   name: string;
   email: string;
   role: Role;
-  created_at: Date;
+  created_at: Date | undefined;
 };
