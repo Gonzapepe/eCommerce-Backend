@@ -13,6 +13,7 @@
   "author": "Gonzapepe & matiasrivero-ctrl",
   "license": "ISC",
   "dependencies": {
+    "@types/validator": "^13.6.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -21,7 +22,8 @@
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.37"
+    "typeorm": "^0.2.37",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
