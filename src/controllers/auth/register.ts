@@ -8,7 +8,7 @@ export const register = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { email, name, surname, password } = req.body;
+  const { email, name, surname, phone, document, password } = req.body;
 
   try {
     const user = await User.findOne({ where: { email } });
@@ -28,6 +28,8 @@ export const register = async (
       newUser.email = email;
       newUser.name = name;
       newUser.surname = surname;
+      newUser.phone = parseInt(phone);
+      newUser.document = parseInt(document);
       newUser.password = password;
       newUser.hashPassword();
 

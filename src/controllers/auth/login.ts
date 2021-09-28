@@ -14,13 +14,15 @@ export const login = async (
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ where: email });
+    const user = await User.findOne({ where: { email } });
+
+    console.log("USUARIO: ", user);
 
     if (!user) {
       const customError = new CustomError(404, "General", "No encontrado", [
         "Email o contraseña incorrecta",
       ]);
-      return next(CustomError);
+      return next(customError);
     }
 
     if (!user.checkIfPasswordMatch(password)) {
@@ -28,7 +30,7 @@ export const login = async (
         "Email o contraseña incorrecta",
       ]);
 
-      return next(CustomError);
+      return next(customError);
     }
 
     const jwtPayload: JwtPayload = {
