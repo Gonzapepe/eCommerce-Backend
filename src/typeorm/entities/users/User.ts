@@ -28,7 +28,7 @@ export class User extends BaseEntity {
   @Column()
   surname!: string;
 
-  @Column("int")
+  @Column("bigint")
   phone!: number;
 
   @Column("int", { unique: true })
