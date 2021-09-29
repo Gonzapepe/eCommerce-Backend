@@ -8,6 +8,7 @@ export const checkRole = (roles: Role[], isSelfAllowed = false) => {
     const { id, role } = req.jwtPayload;
     const { id: requestId } = req.params;
 
+    console.log("REQUEST ID:", requestId);
     let errorSelfAllowed: string | null = null;
     if (isSelfAllowed) {
       if (id === requestId.toString()) {
