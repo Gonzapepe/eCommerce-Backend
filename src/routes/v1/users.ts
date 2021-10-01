@@ -7,12 +7,12 @@ import { checkSelfOrAdmin } from "../../middleware/checkSelfOrAdmin";
 
 const router = Router();
 
-router.get("/", [checkJwt, checkRole(["STANDARD"])], list);
+router.get("/", [checkJwt, checkRole(["ADMINISTRATOR"])], list);
 
 router.get("/:id", [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"])], show);
 
-router.delete("/:id", [checkJwt, checkRole(["ADMINISTRATOR"], true)], destroy);
+router.delete("/:id", [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"])], destroy);
 
-router.patch("/:id", [checkJwt, checkRole(["ADMINISTRATOR"], true)], edit);
+router.patch("/:id", [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"])], edit);
 
 export default router;

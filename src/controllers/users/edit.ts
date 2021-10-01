@@ -6,7 +6,7 @@ import { CustomError } from "../../utils/response/custom-error/CustomError";
 export const edit = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
 
-  const { email, name } = req.body;
+  const { email, name, surname, phone, document } = req.body;
 
   try {
     const user = await User.findOne({ where: { id } });
@@ -23,6 +23,9 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
     }
     user.email = email;
     user.name = name;
+    user.surname = surname;
+    user.phone = parseInt(phone);
+    user.document = parseInt(document);
     try {
       await User.save(user);
       res.customSuccess(
