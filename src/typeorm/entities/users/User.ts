@@ -7,7 +7,9 @@ import {
   UpdateDateColumn,
   BaseEntity,
   JoinColumn,
+  OneToOne,
 } from "typeorm";
+import { Cart } from "../cart/Cart";
 
 import { Role } from "./types";
 
@@ -36,6 +38,9 @@ export class User extends BaseEntity {
 
   @Column({ default: "STANDARD" as Role, length: 30 })
   role!: string;
+
+  @OneToOne(() => Cart, (cart) => cart.user)
+  cart!: Cart;
 
   @Column()
   @CreateDateColumn()
