@@ -21,11 +21,7 @@ export class Cart extends BaseEntity {
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
   cartItems!: CartItem[];
 
-  @Column({ nullable: true })
-  userId!: string;
-
   @OneToOne(() => User, (user) => user.cart)
-  @JoinColumn({ name: "userId" })
   user!: User;
 
   @Column("decimal", { precision: 5, scale: 2 })
