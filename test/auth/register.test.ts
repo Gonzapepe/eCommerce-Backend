@@ -14,13 +14,13 @@ describe("POST /v1/auth/register", () => {
   const userPassword = "password";
   const user = new User();
 
-  user.email = "brandon.mayhew@test.com";
-  user.name = "brandon";
-  user.surname = "Mayhew";
-  user.document = parseInt("1572864");
-  user.phone = parseInt("91145682345");
-  user.password = userPassword;
-  user.hashPassword();
+  user.email = "asdasdsa.asd@test.com";
+  user.name = "asdasd";
+  user.surname = "asda";
+  user.document = 2572864;
+  user.phone = 91145682345;
+
+  console.log("USER: ", user);
 
   before(async () => {
     dbConnection = await dbCreateConnection();
@@ -40,8 +40,8 @@ describe("POST /v1/auth/register", () => {
       email: user.email,
       name: user.name,
       surname: user.surname,
-      document: user.document,
-      phone: user.phone,
+      document: user.document.toString(),
+      phone: user.phone.toString(),
       password: userPassword,
       confirmPassword: userPassword,
     });
@@ -56,8 +56,8 @@ describe("POST /v1/auth/register", () => {
       email: user.email,
       name: user.name,
       surname: user.surname,
-      document: user.document,
-      phone: user.phone,
+      document: user.document.toString(),
+      phone: user.phone.toString(),
       password: userPassword,
       confirmPassword: userPassword,
     });
@@ -65,8 +65,8 @@ describe("POST /v1/auth/register", () => {
       email: user.email,
       name: user.name,
       surname: user.surname,
-      document: user.document,
-      phone: user.phone,
+      document: user.document.toString(),
+      phone: user.phone.toString(),
       password: userPassword,
       confirmPassword: userPassword,
     });
