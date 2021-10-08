@@ -9,4 +9,44 @@ export const create = async (
   next: NextFunction
 ) => {
   const { title, stock, price, features, description } = req.body;
+
+  try {
+    const product = await Product.findOne({ where: { title } });
+
+    if (product) {
+      const customError = new CustomError(
+        400,
+        "General",
+        "El título del producto ya existe",
+        [`El título ${product.title} ya existe`]
+      );
+
+      return next(customError);
+    }
+    try {
+      const newProduct = new Product();
+
+      newProduct.title = title;
+      newProduct.stock = stock;
+      newProduct.price = price;
+      newProduct.features = features;
+      newProduct.description = description;
+
+      await Product.save(newProduct);
+
+      res.customSuccess(200, "Producto publicado satisfactoriamente");
+    } catch (err) {
+      const customError = new CustomError(
+        400,
+        "Raw",
+        `El producto '${title}' no pudo ser creado`,
+        null,
+        err
+      );
+      return next(customError);
+    }
+  } catch (err) {
+    const customError = new CustomError(400, "Raw", "Error", null, err);
+    return next(customError);
+  }
 };
