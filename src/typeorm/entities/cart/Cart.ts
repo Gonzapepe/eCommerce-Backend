@@ -21,7 +21,7 @@ export class Cart extends BaseEntity {
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
   cartItems!: CartItem[];
 
-  @OneToOne(() => User, (user) => user.cart)
+  @OneToOne(() => User, (user) => user.cart, { nullable: true })
   user!: User;
 
   @Column("decimal", { precision: 5, scale: 2 })
