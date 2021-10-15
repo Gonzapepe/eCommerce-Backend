@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { create, list, destroy, edit } from "../../controllers/products";
+import { create, list, destroy, edit, show } from "../../controllers/products";
 import { checkJwt } from "../../middleware/checkJwt";
 import { checkRole } from "../../middleware/checkRole";
 import { validatorProduct } from "../../middleware/validation/product/validationProduct";
@@ -13,7 +13,9 @@ router.post(
   create
 );
 
-router.get("/", [checkJwt], list);
+router.get("/", list);
+
+router.get("/:id", show);
 
 router.delete("/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], destroy);
 
