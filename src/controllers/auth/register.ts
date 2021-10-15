@@ -35,7 +35,7 @@ export const register = async (
 
       await User.save(newUser);
 
-      res.customSuccess(200, "Usuario creado satisfactoriamente", newUser);
+      res.customSuccess(200, "Usuario creado satisfactoriamente");
     } catch (err) {
       const customError = new CustomError(
         400,

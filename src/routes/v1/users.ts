@@ -7,7 +7,7 @@ import { checkSelfOrAdmin } from "../../middleware/checkSelfOrAdmin";
 
 const router = Router();
 
-router.get("/", [checkJwt, checkRole(["STANDARD"])], list);
+router.get("/", [checkJwt, checkRole(["ADMINISTRATOR"])], list);
 
 router.get("/:id", [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"])], show);
 
