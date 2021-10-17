@@ -18,12 +18,12 @@ export class Cart extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { nullable: true })
   cartItems!: CartItem[];
 
   @OneToOne(() => User, (user) => user.cart, { nullable: true })
   user!: User;
 
-  @Column("decimal", { precision: 5, scale: 2 })
+  @Column("decimal", { precision: 5, scale: 2, default: 0 })
   total!: number;
 }

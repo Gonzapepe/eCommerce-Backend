@@ -39,8 +39,11 @@ export class User extends BaseEntity {
   @Column({ default: "STANDARD" as Role, length: 30 })
   role!: string;
 
+  @Column({ nullable: true })
+  cartId: string;
+
   @OneToOne(() => Cart, (cart) => cart.user, { nullable: true })
-  @JoinColumn()
+  @JoinColumn({ name: "cartId" })
   cart!: Cart;
 
   @Column()

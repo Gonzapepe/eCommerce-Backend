@@ -11,6 +11,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         "name",
         "email",
         "role",
+        "cartId",
         "surname",
         "document",
         "phone",
