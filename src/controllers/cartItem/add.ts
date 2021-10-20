@@ -46,6 +46,17 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
 
         cart.total =
           parseInt(cart.total as any) + newCartItem.product.price * quantity;
+        for (var x of cart.cartItems) {
+          if (newCartItem.product === x.product) {
+            const customError = new CustomError(
+              400,
+              "General",
+              "Item duplicado",
+              ["Item duplicado"]
+            );
+            return next(customError);
+          }
+        }
 
         console.log("CARTITEMS: ", cart.cartItems);
         await CartItem.save(newCartItem);
