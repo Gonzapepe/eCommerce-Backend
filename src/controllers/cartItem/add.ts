@@ -23,6 +23,15 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
 
       return next(customError);
     }
+    if (quantity > product.stock) {
+      const customError = new CustomError(
+        400,
+        "General",
+        `No hay stock suficiente.`,
+        ["Stock insuficiente"]
+      );
+      return next(customError);
+    }
     try {
       const user = await User.findOne(userId);
       if (!user) {
