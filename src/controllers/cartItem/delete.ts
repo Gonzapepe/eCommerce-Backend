@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { CartItem } from "../../typeorm/entities/cart/CartItems";
+import { Cart } from "../../typeorm/entities/cart/Cart";
 
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 
@@ -12,6 +13,16 @@ export const destroy = async (
   const id = req.params.id;
   const productId: string = req.params.productId;
   try {
+    const cart = await Cart.findOne(id);
+    if (!cart) {
+      const customError = new CustomError(
+        404,
+        "General",
+        "Carrito no encontrado",
+        ["Carrito no encontrado"]
+      );
+      return next(customError);
+    }
     const cartItem = await CartItem.findOne(productId);
     if (!cartItem) {
       const customError = new CustomError(
@@ -32,6 +43,7 @@ export const destroy = async (
       );
       return next(customError);
     }
+
     CartItem.delete(productId);
 
     res.customSuccess(200, "Producto eliminado satisfactoriamente.", cartItem);
