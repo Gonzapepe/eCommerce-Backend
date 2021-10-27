@@ -29,7 +29,6 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
 
       return next(customError);
     }
-
     res.customSuccess(200, "Carrito encontrado", cart);
   } catch (err) {
     const customError = new CustomError(400, "Raw", "Error", null, err);

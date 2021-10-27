@@ -26,12 +26,4 @@ export class Cart extends BaseEntity {
 
   @Column("decimal", { precision: 5, scale: 2, default: 0 })
   total!: number;
-
-  getTotal() {
-    let total = this.cartItems.map(
-      (cartItem) => cartItem.product.price * cartItem.quantity
-    );
-
-    this.total = total.reduce((a, b) => a + b, 0);
-  }
 }

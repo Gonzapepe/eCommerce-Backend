@@ -9,7 +9,7 @@ const config: ConnectionOptions = {
   database: process.env.POSTGRES_DB,
   synchronize: false, // @see Use synchronize: false if you're running migrations, otherwise leave it in true
   migrationsRun: true,
-  logging: true, // @see Also, to generate new migrations, run "typeorm migration:generate -n Name" After installing typeorm globally.
+  logging: true, // @see Also, to generate new migrations, run "npm run typeorm migration:generate -- -n Name" After installing typeorm globally.
   entities: ["src/typeorm/entities/**/*.ts"],
   migrations: ["src/typeorm/migrations/**/*.ts"],
   subscribers: ["src/typeorm/subscriber/**/*.ts"],

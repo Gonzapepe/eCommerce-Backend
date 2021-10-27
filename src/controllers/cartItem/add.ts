@@ -52,7 +52,6 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
         newCartItem.cartId = user.cartId;
         newCartItem.cart = cart;
         newCartItem.quantity = quantity;
-
         cart.total =
           parseInt(cart.total as any) + newCartItem.product.price * quantity;
         for (var x of cart.cartItems) {
@@ -69,9 +68,9 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
 
         console.log("CARTITEMS: ", cart.cartItems);
         await CartItem.save(newCartItem);
+
         await Cart.save(cart);
 
-        console.log(cart);
         res.customSuccess(
           200,
           "Producto añadido al carrito satisfactoriamente",

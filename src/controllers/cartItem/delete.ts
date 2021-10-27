@@ -43,7 +43,7 @@ export const destroy = async (
       );
       return next(customError);
     }
-
+    cart.total = cart.total - cartItem.product.price * cartItem.quantity;
     CartItem.delete(productId);
 
     res.customSuccess(200, "Producto eliminado satisfactoriamente.", cartItem);
