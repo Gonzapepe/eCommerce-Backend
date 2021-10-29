@@ -106,9 +106,43 @@ describe("Products API", () => {
       let res = await request(app).get("/v1/products");
       expect(res.status).to.equal(200);
       expect(res.body.message).to.equal("Lista de productos: ");
-      expect(res.body.data[0].title).to.eql(
+      expect(res.body.data[1].title).to.eql(
         "Pintura especial albatex rojo marinado"
       );
+    });
+  });
+
+  describe("GET /v1/products/:id", () => {
+    it("Should get a specific product", async () => {
+      let res = await request(app).get(
+        "/v1/products/6eeebba5-ce2e-4c90-9695-f35db2f9bc59"
+      );
+      expect(res.status).to.equal(200);
+      expect(res.body.message).to.equal("Producto encontrado");
+      expect(res.body.data.title).to.eql(
+        "Pintura especial albatex rojo marinado"
+      );
+    });
+    it("should throw an error putting the wrong id", async () => {
+      let res = await request(app).get("/v1/products/asdasdaas");
+      expect(res.status).to.equal(400);
+      expect(res.body.errorType).to.equal("Raw");
+      expect(res.body.errorMessage).to.equal("Error");
+      expect(res.body.errors).to.be.an("null");
+    });
+  });
+
+  describe("PATCH /v1/products/:id", () => {
+    it("Should edit the stock of the product", async () => {
+      let res = await request(app)
+        .patch("/v1/products/6eeebba5-ce2e-4c90-9695-f35db2f9bc59")
+        .set({ Authorization: adminUserToken })
+        .send({ stock: 10 });
+      expect(res.status).to.equal(200);
+      expect(res.body.message).to.equal(
+        "Cambios del producto guardados satisfactoriamente"
+      );
+      expect(res.body.data).to.be.an("null");
     });
   });
 });

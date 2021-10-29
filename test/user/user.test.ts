@@ -73,7 +73,7 @@ describe("Users API", () => {
         .set("Authorization", adminUserToken);
       expect(res.status).to.equal(200);
       expect(res.body.message).to.equal("Lista de usuarios");
-      expect(res.body.data[1].email).to.eql("pepsi@gmail.com");
+      expect(res.body.data[0].email).to.eql("pepsi@test.com");
     });
 
     it("should report error of unauthorized user", async () => {
