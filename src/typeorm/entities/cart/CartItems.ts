@@ -7,7 +7,6 @@ import {
   JoinColumn,
   ManyToOne,
   Entity,
-  OneToOne,
 } from "typeorm";
 
 import { Cart } from "./Cart";
@@ -28,6 +27,6 @@ export class CartItem extends BaseEntity {
   @Column("int", { default: 0, nullable: true })
   quantity!: number;
 
-  @OneToOne(() => Product, (product) => product.cartItem)
+  @ManyToOne(() => Product, (product) => product.cartItem)
   product: Product;
 }

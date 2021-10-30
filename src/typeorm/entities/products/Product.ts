@@ -6,7 +6,7 @@ import {
   BaseEntity,
   JoinColumn,
   Entity,
-  OneToOne,
+  OneToMany,
 } from "typeorm";
 import { CartItem } from "../cart/CartItems";
 
@@ -33,7 +33,7 @@ export class Product extends BaseEntity {
   @Column({ nullable: true })
   cartItemId!: string;
 
-  @OneToOne(() => CartItem, (cartItem) => cartItem.product)
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product)
   @JoinColumn({ name: "cartItemId" })
-  cartItem!: CartItem;
+  cartItem!: CartItem[];
 }

@@ -52,8 +52,9 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
         newCartItem.cartId = user.cartId;
         newCartItem.cart = cart;
         newCartItem.quantity = quantity;
-        cart.total =
-          parseInt(cart.total as any) + newCartItem.product.price * quantity;
+        cart.total = parseInt(cart.total as any) + product.price * quantity;
+
+        console.log("CARTITEMS: ", cart.cartItems);
         for (var x of cart.cartItems) {
           if (newCartItem.product === x.product) {
             const customError = new CustomError(
