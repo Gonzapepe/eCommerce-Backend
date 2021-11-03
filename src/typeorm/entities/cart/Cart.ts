@@ -24,6 +24,6 @@ export class Cart extends BaseEntity {
   @OneToOne(() => User, (user) => user.cart, { nullable: true })
   user!: User;
 
-  @Column("decimal", { precision: 5, scale: 2, default: 0 })
+  @Column("decimal", { precision: 9, scale: 2, default: 0 })
   total!: number;
 }
