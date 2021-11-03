@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { getConnection } from "typeorm";
 
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 import { Product } from "../../typeorm/entities/products/Product";
@@ -44,44 +45,62 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
         return next(customError);
       }
       const cart = await Cart.findOne(user.cartId);
-
+      const total =
+        Number(cart.total) +
+        Number(product.price) * Number(quantity.toFixed(2));
       try {
         const newCartItem = new CartItem();
+        console.log(
+          "MONTOS TOTALES: ",
+          cart.total,
+          product.price,
+          quantity.toFixed(2),
+          parseFloat(total.toFixed(2))
+        );
 
         newCartItem.product = product;
-        newCartItem.cartId = user.cartId;
         newCartItem.cart = cart;
         newCartItem.quantity = quantity;
-        cart.total = parseInt(cart.total as any) + product.price * quantity;
 
-        console.log("CARTITEMS: ", cart.cartItems);
-        for (var x of cart.cartItems) {
-          if (newCartItem.product === x.product) {
-            const customError = new CustomError(
-              400,
-              "General",
-              "Item duplicado",
-              ["Item duplicado"]
-            );
-            return next(customError);
-          }
-        }
-
-        console.log("CARTITEMS: ", cart.cartItems);
         await CartItem.save(newCartItem);
+        try {
+          const items: CartItem[] = [];
+          items.unshift(newCartItem);
+          await getConnection().transaction(async (tm) => {
+            await tm.query(
+              `
+              update cart
+              set total = $1
+              where "id" = $2
+            `,
+              [parseFloat(total.toFixed(2)), cart.id]
+            );
+            await tm.query(
+              `
+            insert into cart ("cartItems") values ($1)
+            `,
+              [items]
+            );
+          });
 
-        await Cart.save(cart);
-
-        res.customSuccess(
-          200,
-          "Producto añadido al carrito satisfactoriamente",
-          newCartItem
-        );
+          res.customSuccess(
+            200,
+            "Producto añadido al carrito satisfactoriamente",
+            newCartItem
+          );
+        } catch (err) {
+          const customError = new CustomError(
+            400,
+            "Raw",
+            "El producto del carrito no pudo ser guardado."
+          );
+          return next(customError);
+        }
       } catch (err) {
         const customError = new CustomError(
           400,
           "Raw",
-          `El producto del carrito no pudo ser guardado.`,
+          `El producto no pudo ser añadido.`,
           null,
           err
         );

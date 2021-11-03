@@ -34,7 +34,7 @@ export const destroy = async (
 
       return next(customError);
     }
-    if (cartItem.cartId !== id) {
+    if (cartItem.cart.id !== id) {
       const customError = new CustomError(
         404,
         "General",
