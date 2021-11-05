@@ -75,12 +75,6 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
             `,
               [parseFloat(total.toFixed(2)), cart.id]
             );
-            await tm.query(
-              `
-            insert into cart ("cartItems") values ($1)
-            `,
-              [items]
-            );
           });
 
           res.customSuccess(

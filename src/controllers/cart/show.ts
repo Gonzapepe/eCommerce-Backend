@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { Cart } from "../../typeorm/entities/cart/Cart";
+import { getRepository } from "typeorm";
 import { User } from "../../typeorm/entities/users/User";
+import { Cart } from "../../typeorm/entities/cart/Cart";
 
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 
@@ -18,7 +19,12 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
       );
       return next(customError);
     }
-    const cart = await Cart.findOne(user.cartId);
+    const cart = await getRepository(Cart)
+      .createQueryBuilder("cart")
+      .leftJoinAndSelect("cart.cartItems", "items")
+      .where("cart.id = :id", { id: user.cartId })
+      .getOne();
+
     if (!cart) {
       const customError = new CustomError(
         404,
