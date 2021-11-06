@@ -1,55 +1,46 @@
 import { Request, Response, NextFunction } from "express";
 
 import { CartItem } from "../../typeorm/entities/cart/CartItems";
-import { Cart } from "../../typeorm/entities/cart/Cart";
+import { User } from "../../typeorm/entities/users/User";
 
 import { CustomError } from "../../utils/response/custom-error/CustomError";
+import { getConnection, getRepository } from "typeorm";
 
-export const destroy = async (
+export const deleteItem = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const id = req.params.id;
-  const productId: string = req.params.productId;
+  const { id } = req.jwtPayload;
+  const productId = req.params.id;
+
   try {
-    const cart = await Cart.findOne(id);
-    if (!cart) {
-      const customError = new CustomError(
-        404,
-        "General",
-        "Carrito no encontrado",
-        ["Carrito no encontrado"]
-      );
+    const user = await User.findOne({ where: { id } });
+    console.log("USUARIO", user);
+    if (!user) {
+      const customError = new CustomError(404, "General", "Not Found", [
+        `User with id:${id} doesn't exists.`,
+      ]);
       return next(customError);
     }
-    const cartItem = await CartItem.findOne(productId);
-    if (!cartItem) {
-      const customError = new CustomError(
-        404,
-        "General",
-        "Producto del carrito no encontrado",
-        [`Producto con el id ${productId} no encontrado`]
-      );
+
+    const product = await CartItem.findOne({ where: { id: productId } });
+    if (!product) {
+      const customError = new CustomError(404, "General", "Not found", [
+        `Producto con el id: ${productId} no existe`,
+      ]);
 
       return next(customError);
     }
-    if (cartItem.cart.id !== id) {
-      const customError = new CustomError(
-        404,
-        "General",
-        "Carrito no encontrado",
-        [`Carrito con el id ${id} no encontrado`]
-      );
-      return next(customError);
-    }
-    cart.total = cart.total - cartItem.product.price * cartItem.quantity;
-    CartItem.delete(productId);
-
-    res.customSuccess(200, "Producto eliminado satisfactoriamente.", cartItem);
+    await getConnection().transaction(async (tm) => {
+      await tm.query(`
+          update cart set total = 0
+      `);
+    });
+    getRepository(CartItem).delete(productId);
+    res.customSuccess(200, "Producto eliminado satisfactoriamente.", product);
   } catch (err) {
     const customError = new CustomError(400, "Raw", "Error", null, err);
-
     return next(customError);
   }
 };
