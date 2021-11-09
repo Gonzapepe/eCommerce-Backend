@@ -32,10 +32,14 @@ export const deleteItem = async (
 
       return next(customError);
     }
+    const total = Number(product.product.price) * Number(product.quantity);
     await getConnection().transaction(async (tm) => {
-      await tm.query(`
-          update cart set total = 0
-      `);
+      await tm.query(
+        `
+          update cart set total = total - $1
+      `,
+        [parseFloat(total.toFixed(2))]
+      );
     });
     getRepository(CartItem).delete(productId);
     res.customSuccess(200, "Producto eliminado satisfactoriamente.", product);

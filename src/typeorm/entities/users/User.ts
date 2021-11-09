@@ -42,7 +42,10 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   cartId: string;
 
-  @OneToOne(() => Cart, (cart) => cart.user, { nullable: true })
+  @OneToOne(() => Cart, (cart) => cart.user, {
+    nullable: true,
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "cartId" })
   cart!: Cart;
 
