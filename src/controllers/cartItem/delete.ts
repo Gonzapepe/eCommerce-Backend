@@ -16,7 +16,6 @@ export const deleteItem = async (
 
   try {
     const user = await User.findOne({ where: { id } });
-    console.log("USUARIO", user);
     if (!user) {
       const customError = new CustomError(404, "General", "Not Found", [
         `User with id:${id} doesn't exists.`,

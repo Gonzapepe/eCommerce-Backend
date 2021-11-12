@@ -50,13 +50,6 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
         Number(product.price) * Number(quantity.toFixed(2));
       try {
         const newCartItem = new CartItem();
-        console.log(
-          "MONTOS TOTALES: ",
-          cart.total,
-          product.price,
-          quantity.toFixed(2),
-          parseFloat(total.toFixed(2))
-        );
 
         newCartItem.product = product;
         newCartItem.cart = cart;

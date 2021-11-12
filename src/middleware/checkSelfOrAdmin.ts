@@ -8,7 +8,6 @@ export const checkSelfOrAdmin = (roles: Role[]) => {
     const { id, role } = req.jwtPayload;
     const { id: requestId } = req.params;
     let allowed: boolean | null = null;
-    console.log("ROL DEL USUARIO: ", roles.toString());
     if (id === requestId || role === roles.toString()) {
       allowed = true;
     }
