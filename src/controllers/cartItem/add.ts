@@ -54,7 +54,7 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
         newCartItem.product = product;
         newCartItem.cart = cart;
         newCartItem.quantity = quantity;
-
+        console.log(newCartItem.product);
         await CartItem.save(newCartItem);
         try {
           const items: CartItem[] = [];

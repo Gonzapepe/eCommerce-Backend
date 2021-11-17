@@ -63,5 +63,12 @@ describe("Cart and CartItems API", () => {
     });
   });
 
-  describe("POST /v1/products/:id", () => {});
+  describe("POST /v1/products/:id", () => {
+    it("Should add product to cart", async () => {
+      let res = await request(app)
+        .post("/v1/products/6eeebba5-ce2e-4c90-9695-f35db2f9bc59")
+        .set({ Authorization: standardUserToken })
+        .send({ quantity: 1 });
+    });
+  });
 });

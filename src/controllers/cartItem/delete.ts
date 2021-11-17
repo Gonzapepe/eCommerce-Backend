@@ -15,7 +15,7 @@ export const deleteItem = async (
   const productId = req.params.id;
 
   try {
-    const user = await User.findOne({ where: { id } });
+    const user = await User.findOne(id);
     if (!user) {
       const customError = new CustomError(404, "General", "Not Found", [
         `User with id:${id} doesn't exists.`,
@@ -23,25 +23,46 @@ export const deleteItem = async (
       return next(customError);
     }
 
-    const product = await CartItem.findOne({ where: { id: productId } });
-    if (!product) {
+    const cartItem = await getRepository(CartItem)
+      .createQueryBuilder("cart_item")
+      .leftJoinAndSelect("cart_item.product", "item")
+      .where("cart_item.id = :id ", { id: productId })
+      .getOne();
+    if (!cartItem) {
       const customError = new CustomError(404, "General", "Not found", [
         `Producto con el id: ${productId} no existe`,
       ]);
 
       return next(customError);
     }
-    const total = Number(product.product.price) * Number(product.quantity);
-    await getConnection().transaction(async (tm) => {
-      await tm.query(
-        `
-          update cart set total = total - $1
+    // @see producto es indefinido. hay que hacer un left join and select para poder
+    // retirar el precio del producto y asi poder hacer la suma del total.
+    console.log(cartItem);
+    console.log(cartItem);
+    const total =
+      Number(cartItem.product.price) * Number(cartItem.quantity.toFixed(2));
+    // console.log(total, "TOTAL DEL CARRITO");
+    try {
+      await getConnection().transaction(async (tm) => {
+        await tm.query(
+          `
+          update cart
+              set total = total - $1
+              where "id" = $2
       `,
-        [parseFloat(total.toFixed(2))]
+          [parseFloat(total.toFixed(2)), user.cartId]
+        );
+      });
+      await CartItem.delete(cartItem.id);
+      res.customSuccess(
+        200,
+        "Producto eliminado satisfactoriamente.",
+        cartItem
       );
-    });
-    getRepository(CartItem).delete(productId);
-    res.customSuccess(200, "Producto eliminado satisfactoriamente.", product);
+    } catch (err) {
+      const customError = new CustomError(400, "Raw", "Error", null, err);
+      return next(customError);
+    }
   } catch (err) {
     const customError = new CustomError(400, "Raw", "Error", null, err);
     return next(customError);
