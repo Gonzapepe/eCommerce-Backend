@@ -41,7 +41,6 @@ export const deleteItem = async (
     console.log(cartItem);
     const total =
       Number(cartItem.product.price) * Number(cartItem.quantity.toFixed(2));
-    // console.log(total, "TOTAL DEL CARRITO");
     try {
       await getConnection().transaction(async (tm) => {
         await tm.query(
