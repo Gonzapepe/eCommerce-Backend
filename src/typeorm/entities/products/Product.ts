@@ -1,14 +1,14 @@
 import {
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
   BaseEntity,
   JoinColumn,
   Entity,
   OneToMany,
+  ManyToMany,
 } from "typeorm";
 import { CartItem } from "../cart/CartItems";
+import { Subcategory } from "../categories/Subcategory";
 
 @Entity()
 export class Product extends BaseEntity {
@@ -36,4 +36,7 @@ export class Product extends BaseEntity {
   @OneToMany(() => CartItem, (cartItem) => cartItem.product)
   @JoinColumn({ name: "cartItemId" })
   cartItem!: CartItem[];
+
+  @ManyToMany(() => Subcategory, (subcategory) => subcategory.products)
+  subcategories: Subcategory[];
 }
