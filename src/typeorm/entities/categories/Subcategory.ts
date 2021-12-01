@@ -18,7 +18,10 @@ export class Subcategory extends BaseEntity {
   @Column()
   name!: string;
 
-  @ManyToMany(() => Product, (product) => product.subcategories)
+  @ManyToMany(() => Product, (product) => product.subcategories, {
+    nullable: true,
+    onDelete: "SET NULL",
+  })
   @JoinTable()
   products: Product[];
 }

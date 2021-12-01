@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getRepository, getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 import { User } from "../../typeorm/entities/users/User";
 import { Cart } from "../../typeorm/entities/cart/Cart";
 

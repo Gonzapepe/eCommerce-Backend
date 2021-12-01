@@ -1,43 +1,39 @@
 import { Request, Response, NextFunction } from "express";
+import { Subcategory } from "../../typeorm/entities/categories/Subcategory";
 
-import { Product } from "../../typeorm/entities/products/Product";
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 
 export const edit = async (req: Request, res: Response, next: NextFunction) => {
-  const id = req.params.id;
+  const { id } = req.params;
 
-  const { title, description, stock, price, features, subcategories } = req.body;
+  const { name } = req.body;
+
   try {
-    const product = await Product.findOne({ where: { id } });
-    if (!product) {
+    const subcategory = await Subcategory.findOne({ where: { id } });
+
+    if (!subcategory) {
       const customError = new CustomError(
         404,
         "General",
-        `Producto con el id ${id} no fue encontrado.`,
-        ["Producto no encontrado"]
+        `Subcategoría con el id ${id} no fue encontrado.`,
+        ["Subcategoría no encontrada"]
       );
 
       return next(customError);
     }
 
-    product.title = title;
-    product.description = description;
-    product.stock = stock;
-    product.price = price;
-    product.features = features;
-    product.subcategories = subcategories
-
+    subcategory.name = name;
     try {
-      await Product.save(product);
+      await Subcategory.save(subcategory);
       res.customSuccess(
         200,
-        "Cambios del producto guardados satisfactoriamente"
+        "Cambios de la subcategoría guardados satisfactoriamente"
       );
     } catch (err) {
       const customError = new CustomError(
         409,
         "Raw",
-        `Producto ${product.title} no puede ser guardado.`,
+        `Subcategoría ${subcategory.name} no pudo ser guardado.`,
         null,
         err
       );
