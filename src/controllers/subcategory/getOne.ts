@@ -16,6 +16,9 @@ export const getOne = async (
       .leftJoinAndSelect("subcategory.products", "items")
       .where("subcategory.id = :id", { id })
       .getOne();
+
+    subcategory.countProducts();
+
     if (!subcategory) {
       const customError = new CustomError(
         404,

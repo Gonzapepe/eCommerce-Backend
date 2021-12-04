@@ -1,6 +1,13 @@
 import { Router } from "express";
 
-import { create, list, destroy, edit, show } from "../../controllers/products";
+import {
+  create,
+  list,
+  destroy,
+  edit,
+  show,
+  addSub,
+} from "../../controllers/products";
 import { add } from "../../controllers/cartItem";
 import { checkJwt } from "../../middleware/checkJwt";
 import { checkRole } from "../../middleware/checkRole";
@@ -23,5 +30,7 @@ router.post("/:id", [checkJwt], add);
 router.delete("/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], destroy);
 
 router.patch("/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], edit);
+
+router.patch("/sub/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], addSub);
 
 export default router;

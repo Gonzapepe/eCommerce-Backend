@@ -18,10 +18,17 @@ export class Subcategory extends BaseEntity {
   @Column()
   name!: string;
 
+  @Column({ default: 0 })
+  count!: number;
+
   @ManyToMany(() => Product, (product) => product.subcategories, {
     nullable: true,
     onDelete: "SET NULL",
   })
   @JoinTable()
   products: Product[];
+
+  countProducts() {
+    this.count = this.products.length - 1;
+  }
 }
