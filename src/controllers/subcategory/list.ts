@@ -9,6 +9,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
     const subcategories = await getRepository(Subcategory)
       .createQueryBuilder("subcategory")
       .leftJoinAndSelect("subcategory.products", "subcategories")
+      .addSelect("subcategory.countProducts()", "count")
       .getMany();
 
     if (!subcategories) {

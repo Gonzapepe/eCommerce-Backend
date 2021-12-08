@@ -43,11 +43,12 @@ export const addSub = async (
       subs.push(category);
     }
 
-    console.log("SUBCATEGORIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS", ...subs);
-
     try {
       product.subcategories = [...subs];
-
+      product.subcategories.map(async (subcategory) => {
+        subcategory.countProducts();
+        await Subcategory.save(subcategory);
+      });
       await Product.save(product);
       res.customSuccess(
         200,

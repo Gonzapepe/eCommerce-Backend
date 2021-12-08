@@ -7,11 +7,13 @@ import { checkSelfOrAdmin } from "../../middleware/checkSelfOrAdmin";
 
 const router = Router();
 
-router.get("/self", [checkJwt], self);
+//No mover la ruta /self para evitar problemas, probar /self/data moviendo el orden
 
 router.get("/", [checkJwt, checkRole(["ADMINISTRATOR"])], list);
 
 router.get("/:id", [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"])], show);
+
+router.get("/self/data", [checkJwt], self);
 
 router.delete("/:id", [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"])], destroy);
 

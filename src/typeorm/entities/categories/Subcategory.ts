@@ -29,6 +29,6 @@ export class Subcategory extends BaseEntity {
   products: Product[];
 
   countProducts() {
-    this.count = this.products.length - 1;
+    this.count = this.products.length;
   }
 }
