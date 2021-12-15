@@ -30,7 +30,12 @@ router.get("/:id", show);
 
 router.post("/:id", [checkJwt], add);
 
-router.post("/photo/upload", multer.single("image"), uploadImage);
+router.post(
+  "/:id/photo",
+  [checkJwt, checkRole(["ADMINISTRATOR"])],
+  multer.single("image"),
+  uploadImage
+);
 
 router.delete("/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], destroy);
 

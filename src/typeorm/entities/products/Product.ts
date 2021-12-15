@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { CartItem } from "../cart/CartItems";
 import { Subcategory } from "../categories/Subcategory";
+import { Image } from "../images/Images";
 
 @Entity()
 export class Product extends BaseEntity {
@@ -36,6 +37,9 @@ export class Product extends BaseEntity {
   @OneToMany(() => CartItem, (cartItem) => cartItem.product)
   @JoinColumn({ name: "cartItemId" })
   cartItem!: CartItem[];
+
+  @OneToMany(() => Image, (image) => image.product, { nullable: true })
+  images!: Image[];
 
   @ManyToMany(() => Subcategory, (subcategory) => subcategory.products)
   subcategories: Subcategory[];

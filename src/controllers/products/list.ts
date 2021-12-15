@@ -9,6 +9,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
     const products = await getRepository(Product)
       .createQueryBuilder("product")
       .leftJoinAndSelect("product.subcategories", "products")
+      .leftJoinAndSelect("product.images", "images")
       .getMany();
 
     res.customSuccess(200, "Lista de productos: ", products);
