@@ -2,12 +2,18 @@ import { Request, Response, NextFunction } from "express";
 import { Product } from "../../typeorm/entities/products/Product";
 
 import { CustomError } from "../../utils/response/custom-error/CustomError";
+import { getRepository } from "typeorm";
 
 export const show = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
 
   try {
-    const product = await Product.findOne(id);
+    const product = await getRepository(Product)
+      .createQueryBuilder("product")
+      .leftJoinAndSelect("product.subcategories", "products")
+      .leftJoinAndSelect("product.images", "images")
+      .where("product.id = :id", { id })
+      .getOne();
 
     if (!product) {
       const customError = new CustomError(

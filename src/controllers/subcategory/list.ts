@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import { createQueryBuilder, getRepository } from "typeorm";
+import { getRepository } from "typeorm";
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 import { Subcategory } from "../../typeorm/entities/categories/Subcategory";
 import { Product } from "../../typeorm/entities/products/Product";
@@ -21,18 +21,18 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         .where("subcategory.name = :name", { name: product })
         .getMany();
       products.push(...response);
-      console.log("RESPUESTA: ", response);
-      console.log("PRODUCTS DENTRO DE FOREACH: ", products);
+      // console.log("RESPUESTA: ", response);
+      // console.log("PRODUCTS DENTRO DE FOREACH: ", products);
     });
 
-    // for(const x in names) {
-    //   const response = await getRepository(Product)
-    //       .createQueryBuilder("product")
-    //       .innerJoin("product.subcategories", "subcategory")
-    //       .where("subcategory.name = :name", { name: names[x] })
-    //       .getMany();
-    //       products.push(...response)
-    // }
+    for (const x in names) {
+      const response = await getRepository(Product)
+        .createQueryBuilder("product")
+        .innerJoin("product.subcategories", "subcategory")
+        .where("subcategory.name = :name", { name: names[x] })
+        .getMany();
+      products.push(...response);
+    }
 
     console.log("PRODUCTOS: ", products);
     res.customSuccess(200, "Productos: ", products);
