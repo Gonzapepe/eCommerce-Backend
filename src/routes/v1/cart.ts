@@ -10,6 +10,6 @@ router.get("/", [checkJwt], show);
 
 router.delete("/:id", [checkJwt], deleteItem);
 
-router.post("/pay", [checkJwt], pay);
+router.get("/pay", [checkJwt], pay);
 
 export default router;
