@@ -42,6 +42,7 @@ export const pay = async (req: Request, res: Response, next: NextFunction) => {
         .leftJoinAndSelect("cartItem.product", "items")
         .where("cartItem.id = :id", { id: cart.cartItems[x].id })
         .getOne();
+      console.log("RESPUESTA:", response);
       preference.items.push({
         id: response.product.id,
         title: response.product.title,
