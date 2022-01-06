@@ -17,10 +17,12 @@ And ensure you have synchronize set to false in ormconfig.ts
 - NODE_ENV
 - PORT
 - PG_PORT
+- PG_HOST
 - POSTGRES_USER
 - POSTGRES_PASSWORD
 - POSTGRES_DB
 - JWT_SECRET
+- JWT_EXPIRATION
 
 ## Commits
 
