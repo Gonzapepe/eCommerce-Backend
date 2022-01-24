@@ -7,6 +7,8 @@ import mercadopago from "mercadopago";
 
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 
+type AutoReturn = "approved" | "all";
+
 export const pay = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.jwtPayload.id;
   try {
@@ -30,10 +32,11 @@ export const pay = async (req: Request, res: Response, next: NextFunction) => {
     const preference = {
       items: [] as any[],
       back_urls: {
-        success: "http://localhost:4000/feedback",
-        failure: "http://localhost:4000/feedback",
-        pending: "http://localhost:4000/feedback",
+        success: "http://localhost:3000/feedback",
+        failure: "http://localhost:3000/feedback",
+        pending: "http://localhost:3000/feedback",
       },
+      auto_return: "approved" as AutoReturn,
     };
 
     for (const x in cart.cartItems) {
