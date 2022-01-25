@@ -4,6 +4,7 @@ import { CustomError } from "../../utils/response/custom-error/CustomError";
 import { User } from "../../typeorm/entities/users/User";
 import { getConnection } from "typeorm";
 import { CartItem } from "../../typeorm/entities/cart/CartItems";
+import { Cart } from "../../typeorm/entities/cart/Cart";
 
 export const feedback = async (
   req: Request,
@@ -24,6 +25,7 @@ export const feedback = async (
 
       return next(customError);
     }
+    const cart = await Cart.findOne(user.cartId);
 
     console.log("USUARIO: ", user);
 
@@ -41,6 +43,20 @@ export const feedback = async (
         `,
           [user.cartId]
         );
+
+        // eliminar stock del producto (falta probarlo)
+        for (const x in cart.cartItems) {
+          await tm.query(
+            `
+        update product
+        set stock = stock - $1
+        where "id" = $2
+      `[
+              (Number(cart.cartItems[x].quantity),
+              cart.cartItems[x].product.id as any)
+            ]
+          );
+        }
       });
 
       // Resetea el Array de cartItems donde el Id sea igual que el id del carrito
@@ -56,9 +72,6 @@ export const feedback = async (
       const customError = new CustomError(400, "Raw", "Error", null, err);
       return next(customError);
     }
-
-    // Eliminar el item del carrito
-    // const deletedCartItems = getConnection().createQueryBuilder().delete().from(CartItem).where('cartItem.cartid = :id', {id: user.cartId}).execute()
 
     const payment = await mercadopago.payment.findById(
       Number(req.query.payment_id)
