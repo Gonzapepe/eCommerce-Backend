@@ -46,14 +46,16 @@ export const pay = async (req: Request, res: Response, next: NextFunction) => {
         .where("cartItem.id = :id", { id: cart.cartItems[x].id })
         .getOne();
       console.log("RESPUESTA:", response);
-      preference.items.push({
-        id: response.product.id,
-        title: response.product.title,
-        currency_id: "ARS",
-        description: response.product.description,
-        quantity: response.quantity,
-        unit_price: Number(response.product.price),
-      });
+      if (response.product.stock >= response.quantity) {
+        preference.items.push({
+          id: response.product.id,
+          title: response.product.title,
+          currency_id: "ARS",
+          description: response.product.description,
+          quantity: response.quantity,
+          unit_price: Number(response.product.price),
+        });
+      }
     }
 
     // type Mp = "approved" | "all";
