@@ -79,7 +79,7 @@ export const feedback = async (
     // }
     res.customSuccess(200, "Pago acreditado", {
       Payment: req.query.payment_id,
-      Status: req.query.status,
+      Status: status,
       MerchantOrder: req.query.merchant_order_id,
     });
   } catch (err) {

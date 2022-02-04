@@ -11,6 +11,14 @@ import { CartItem } from "../cart/CartItems";
 import { Subcategory } from "../categories/Subcategory";
 import { Image } from "../images/Images";
 
+type Category =
+  | "muebles"
+  | "pisos"
+  | "sanitarios"
+  | "cocina"
+  | "accesorios"
+  | "pinturas";
+
 @Entity()
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
@@ -31,8 +39,8 @@ export class Product extends BaseEntity {
   @Column({ default: "Este producto no tiene descripción." })
   description!: string;
 
-  @Column({ nullable: true })
-  cartItemId!: string;
+  @Column({ default: "pinturas", nullable: true })
+  category!: Category;
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.product)
   @JoinColumn({ name: "cartItemId" })
