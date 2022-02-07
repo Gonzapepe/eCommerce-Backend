@@ -35,7 +35,6 @@ export const register = async (
         newUser.name = name;
         newUser.surname = surname;
         newUser.phone = parseInt(phone);
-        newUser.document = parseInt(document);
         newUser.cart = cart;
         newUser.password = password;
         newUser.hashPassword();

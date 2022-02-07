@@ -13,7 +13,6 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         "role",
         "cartId",
         "surname",
-        "document",
         "phone",
         "created_at",
         "updated_at",

@@ -33,9 +33,6 @@ export class User extends BaseEntity {
   @Column("bigint")
   phone!: number;
 
-  @Column("int", { unique: true })
-  document!: number;
-
   @Column({ default: "STANDARD" as Role, length: 30 })
   role!: string;
 

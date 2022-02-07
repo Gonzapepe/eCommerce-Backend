@@ -14,7 +14,6 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
         "email",
         "role",
         "surname",
-        "document",
         "phone",
         "created_at",
         "updated_at",

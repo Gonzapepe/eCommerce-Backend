@@ -25,7 +25,6 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
     user.name = name;
     user.surname = surname;
     user.phone = parseInt(phone);
-    user.document = parseInt(document);
     try {
       await User.save(user);
       res.customSuccess(
@@ -36,7 +35,7 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
       const customError = new CustomError(
         409,
         "Raw",
-        `Usuario '${user.document}' no puede ser guardado.`,
+        `Usuario '${user.name} ${user.surname}' no puede ser guardado.`,
         null,
         err
       );

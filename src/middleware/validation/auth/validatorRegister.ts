@@ -10,8 +10,7 @@ export const validatorRegister = (
   res: Response,
   next: NextFunction
 ) => {
-  let { email, name, surname, phone, document, password, confirmPassword } =
-    req.body;
+  let { email, name, surname, phone, password, confirmPassword } = req.body;
 
   const errorsValidation: ErrorValidation[] = [];
 
@@ -21,7 +20,6 @@ export const validatorRegister = (
   password = !password ? "" : password;
   confirmPassword = !confirmPassword ? "" : confirmPassword;
   phone = !phone ? "" : phone;
-  document = !document ? "" : document;
 
   if (!validator.isEmail(email)) {
     errorsValidation.push({ email: "El email es inválido" });
@@ -46,14 +44,6 @@ export const validatorRegister = (
   // if (!validator.isInt(phone)) {
   //   errorsValidation.push({ phone: "El número de teléfono debe ser tipo Int" });
   // }
-
-  if (validator.isEmpty(document)) {
-    errorsValidation.push({ document: "DNI requerido" });
-  }
-
-  if (!validator.isLength(document, { min: ConstsUser.DOCUMENT_MIN_CHAR })) {
-    errorsValidation.push({ document: "El DNI debe tener al menos 7 dígitos" });
-  }
 
   // if (validator.isInt(document)) {
   //   errorsValidation.push({ document: "El documento debe ser tipo Int" });

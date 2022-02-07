@@ -27,7 +27,6 @@ export const destroy = async (
       id: user.id,
       name: user.name,
       surname: user.surname,
-      dni: user.document,
       email: user.email,
     });
   } catch (err) {
