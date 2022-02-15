@@ -6,3 +6,4 @@ export * from "./show";
 export * from "./addSub";
 export * from "./removeSub";
 export * from "./uploadImage";
+export * from "./deleteImage";

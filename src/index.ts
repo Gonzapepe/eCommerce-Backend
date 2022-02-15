@@ -11,7 +11,6 @@ import "./utils/response/customSuccess";
 import { dbCreateConnection } from "./typeorm/dbCreateConnection";
 import routes from "./routes";
 import { errorHandler } from "./middleware/errorHandler";
-import path from "path";
 import mercadopago from "mercadopago";
 
 export const app = express();
@@ -23,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("combined"));
 
 app.use("/", routes);
-app.use("/uploads", express.static(path.resolve("uploads")));
+app.use("/uploads", express.static("uploads"));
 
 app.use(errorHandler);
 

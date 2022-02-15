@@ -3,12 +3,12 @@ import { Image } from "../../typeorm/entities/images/Images";
 import { Product } from "../../typeorm/entities/products/Product";
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 
-export const uploadImage = async (
+export const deleteImage = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.params;
+  const { id, imgId } = req.params;
 
   try {
     const product = await Product.findOne(id);
@@ -25,15 +25,20 @@ export const uploadImage = async (
     }
 
     try {
-      const newImage = new Image();
-      newImage.path = req.file.path;
-      newImage.product = product;
+      const image = await Image.findOne({ where: { id: imgId } });
+      if (!image) {
+        const customError = new CustomError(
+          404,
+          "General",
+          `Imágen con el id ${imgId} no existe`,
+          ["Imagen no encontrada"]
+        );
+        return next(customError);
+      }
 
-      console.log("FILE PATH: ", req.file.path);
+      await Image.remove(image);
 
-      await Image.save(newImage);
-
-      res.customSuccess(200, "Imagen agregada satisfactoriamente", newImage);
+      res.customSuccess(200, "Imagen eliminada satisfactoriamente", image);
     } catch (err) {
       const customError = new CustomError(400, "Raw", "Error", null, err);
       return next(customError);

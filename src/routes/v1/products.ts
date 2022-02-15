@@ -9,6 +9,7 @@ import {
   addSub,
   removeSub,
   uploadImage,
+  deleteImage,
 } from "../../controllers/products";
 import { add } from "../../controllers/cartItem";
 import { checkJwt } from "../../middleware/checkJwt";
@@ -40,6 +41,12 @@ router.post(
 router.delete("/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], destroy);
 
 router.patch("/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], edit);
+
+router.delete(
+  "/:id/deleteimage/:imgId",
+  [checkJwt, checkRole(["ADMINISTRATOR"])],
+  deleteImage
+);
 
 router.patch(
   "/:id/removesub/:subId",
