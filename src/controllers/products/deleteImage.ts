@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Image } from "../../typeorm/entities/images/Images";
 import { Product } from "../../typeorm/entities/products/Product";
 import { CustomError } from "../../utils/response/custom-error/CustomError";
+import fs from "fs";
 
 export const deleteImage = async (
   req: Request,
@@ -35,6 +36,16 @@ export const deleteImage = async (
         );
         return next(customError);
       }
+      fs.access(image.path, async (error) => {
+        if (error) {
+          return;
+        }
+
+        await fs.unlink(image.path, (err) => {
+          if (err) return;
+          console.log("imagen eliminada: ", image.path);
+        });
+      });
 
       await Image.remove(image);
 
