@@ -425,6 +425,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete Image",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU2YjkyYmE3LTlhNmItNDhjMS1iZDRiLWI1MjVjYjk3MGEwYyIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImNyZWF0ZWRfYXQiOiIyMDIxLTEwLTEzVDAxOjQ4OjQ0LjU2MVoiLCJpYXQiOjE2NDQ4OTc3OTksImV4cCI6MTY0NDkwMDc5OX0.mnF3Uty4fXw6iZQQc_uTlrxhahQJ-bESB_INVahcvmY",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:4000/v1/products/6eeebba5-ce2e-4c90-9695-f35db2f9bc59/deleteimage/325f90c6-f6cf-4a88-8c10-80e39ebe60d3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"v1",
+								"products",
+								"6eeebba5-ce2e-4c90-9695-f35db2f9bc59",
+								"deleteimage",
+								"325f90c6-f6cf-4a88-8c10-80e39ebe60d3"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -461,8 +490,7 @@
 					"name": "Add",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"url": null
+						"header": []
 					},
 					"response": []
 				},
@@ -498,8 +526,15 @@
 					"name": "Pay",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": null
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Feedback",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
@@ -606,8 +641,7 @@
 					"name": "New Request",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": null
+						"header": []
 					},
 					"response": []
 				}
