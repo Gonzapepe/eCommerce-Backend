@@ -5,12 +5,27 @@ import { CustomError } from "../../utils/response/custom-error/CustomError";
 import { createQueryBuilder, getRepository } from "typeorm";
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
+  const { category } = req.query;
   try {
-    const products = await getRepository(Product)
-      .createQueryBuilder("product")
-      .leftJoinAndSelect("product.subcategories", "products")
-      .leftJoinAndSelect("product.images", "images")
-      .getMany();
+    const products: Product[] = [];
+    if (category) {
+      const response = await getRepository(Product)
+        .createQueryBuilder("product")
+        .leftJoinAndSelect("product.subcategories", "products")
+        .leftJoinAndSelect("product.images", "images")
+        .where("product.category = :category", {
+          category: category.toString().trim(),
+        })
+        .getMany();
+      products.push(...response);
+    } else {
+      const response = await getRepository(Product)
+        .createQueryBuilder("product")
+        .leftJoinAndSelect("product.subcategories", "products")
+        .leftJoinAndSelect("product.images", "images")
+        .getMany();
+      products.push(...response);
+    }
 
     res.customSuccess(200, "Lista de productos: ", products);
   } catch (err) {

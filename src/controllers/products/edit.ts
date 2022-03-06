@@ -6,7 +6,7 @@ import { CustomError } from "../../utils/response/custom-error/CustomError";
 export const edit = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
 
-  const { title, description, stock, price, features } = req.body;
+  const { title, description, stock, price, features, category } = req.body;
   try {
     const product = await Product.findOne({ where: { id } });
     if (!product) {
@@ -25,6 +25,7 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
     product.stock = stock;
     product.price = price;
     product.features = features;
+    product.category = category;
 
     try {
       await Product.save(product);
