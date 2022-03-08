@@ -46,7 +46,10 @@ export const login = async (
       res.customSuccess(
         200,
         "Token creado satisfactoriamente.",
-        `Bearer ${token}`
+        {
+          token: `Bearer ${token}`,
+          user: jwtPayload
+        }
       );
     } catch (err) {
       const customError = new CustomError(
