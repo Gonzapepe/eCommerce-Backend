@@ -14,16 +14,16 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
 
     const products: Product[] = [];
 
-    names.forEach(async (product) => {
-      const response = await getRepository(Product)
-        .createQueryBuilder("product")
-        .innerJoin("product.subcategories", "subcategory")
-        .where("subcategory.name = :name", { name: product })
-        .getMany();
-      products.push(...response);
-      // console.log("RESPUESTA: ", response);
-      // console.log("PRODUCTS DENTRO DE FOREACH: ", products);
-    });
+    // names.forEach(async (product) => {
+    //   const response = await getRepository(Product)
+    //     .createQueryBuilder("product")
+    //     .innerJoinAndSelect("product.subcategories", "subcategory")
+    //     .where("subcategory.name = :name", { name: product })
+    //     .getMany();
+    //   products.push(...response);
+    //   // console.log("RESPUESTA: ", response);
+    //   // console.log("PRODUCTS DENTRO DE FOREACH: ", products);
+    // });
 
     for (const x in names) {
       const response = await getRepository(Product)
