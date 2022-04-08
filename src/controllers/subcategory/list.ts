@@ -29,6 +29,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
       const response = await getRepository(Product)
         .createQueryBuilder("product")
         .innerJoin("product.subcategories", "subcategory")
+        .innerJoinAndSelect("product.images", "images")
         .where("subcategory.name = :name", { name: names[x] })
         .getMany();
       products.push(...response);
