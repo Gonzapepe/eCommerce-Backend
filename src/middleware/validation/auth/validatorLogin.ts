@@ -14,7 +14,7 @@ export const validatorLogin = (
   const errorsValidation: ErrorValidation[] = [];
 
   email = !email ? "" : email;
-  password = !password ? "" : email;
+  password = !password ? "" : password;
 
   if (!validator.isEmail(email)) {
     errorsValidation.push({ email: "El email es inválido." });

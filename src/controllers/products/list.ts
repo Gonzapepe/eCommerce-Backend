@@ -26,7 +26,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         .getMany();
       products.push(...response);
     }
-
+    // asdiajsidoajoadsjasdadasda
     res.customSuccess(200, "Lista de productos: ", products);
   } catch (err) {
     const customError = new CustomError(
