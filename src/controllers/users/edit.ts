@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-
 import { User } from "../../typeorm/entities/users/User";
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 
 export const edit = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
 
-  const { email, name, surname, phone, document } = req.body;
+  const { email, name, surname, phone } = req.body;
 
   try {
     const user = await User.findOne({ where: { id } });

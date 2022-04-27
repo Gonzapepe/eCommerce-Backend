@@ -3,8 +3,6 @@ import { Request, Response, NextFunction } from "express";
 import { User } from "../../typeorm/entities/users/User";
 import { Cart } from "../../typeorm/entities/cart/Cart";
 import { CustomError } from "../../utils/response/custom-error/CustomError";
-import { createJwtToken } from "../../utils/createJwtToken";
-import { JwtPayload } from "../../types/JwtPayload";
 
 export const register = async (
   req: Request,
