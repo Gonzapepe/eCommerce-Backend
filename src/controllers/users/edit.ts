@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../../typeorm/entities/users/User";
 import { CustomError } from "../../utils/response/custom-error/CustomError";
+import { getRepository } from "typeorm";
 
 export const edit = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
@@ -8,7 +9,10 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
   const { email, name, surname, phone } = req.body;
 
   try {
-    const user = await User.findOne({ where: { id } });
+    const user = await getRepository(User)
+      .createQueryBuilder("user")
+      .where("user.id = :id", { id })
+      .getOne();
 
     if (!user) {
       const customError = new CustomError(
@@ -28,7 +32,8 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
       await User.save(user);
       res.customSuccess(
         200,
-        "Cambios del usuario guardados satisfactoriamente"
+        "Cambios del usuario guardados satisfactoriamente",
+        user
       );
     } catch (err) {
       const customError = new CustomError(

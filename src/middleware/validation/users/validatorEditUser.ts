@@ -50,7 +50,7 @@ export const validatorEditUser = (
     const customError = new CustomError(
       400,
       "Validation",
-      "Register validation error",
+      "Edit User validation error",
       null,
       null,
       errorsValidation

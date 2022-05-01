@@ -14,12 +14,12 @@ router.get("/", [checkJwt, checkRole(["ADMINISTRATOR"])], list);
 
 router.get("/:id", [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"])], show);
 
-router.get("/self/data", [checkJwt], self);
-
 router.delete("/:id", [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"])], destroy);
 
+router.get("/self/data", [checkJwt], self);
+
 router.patch(
-  "/:id",
+  "/edit/:id",
   [checkJwt, checkSelfOrAdmin(["ADMINISTRATOR"]), validatorEditUser],
   edit
 );
