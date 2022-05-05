@@ -22,6 +22,7 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
     const cart = await getRepository(Cart)
       .createQueryBuilder("cart")
       .leftJoinAndSelect("cart.cartItems", "items")
+      .leftJoinAndSelect("items.product", "products")
       .where("cart.id = :id", { id: user.cartId })
       .getOne();
 

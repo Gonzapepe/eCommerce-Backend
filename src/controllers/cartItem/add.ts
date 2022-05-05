@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getConnection } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 
 import { CustomError } from "../../utils/response/custom-error/CustomError";
 import { Product } from "../../typeorm/entities/products/Product";
@@ -11,8 +11,13 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
   const userId = req.jwtPayload.id;
   const { quantity } = req.body;
+
   try {
-    const product = await Product.findOne(id);
+    const product = await getRepository(Product)
+      .createQueryBuilder("product")
+      .leftJoinAndSelect("product.images", "images")
+      .where("product.id = :id", { id })
+      .getOne();
 
     if (!product) {
       const customError = new CustomError(
