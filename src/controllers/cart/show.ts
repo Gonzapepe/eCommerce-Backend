@@ -23,6 +23,7 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
       .createQueryBuilder("cart")
       .leftJoinAndSelect("cart.cartItems", "items")
       .leftJoinAndSelect("items.product", "products")
+      .leftJoinAndSelect("products.images", "images")
       .where("cart.id = :id", { id: user.cartId })
       .getOne();
 
