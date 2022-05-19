@@ -6,6 +6,8 @@ import { createQueryBuilder, getRepository } from "typeorm";
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
   const { category } = req.query;
+  const page: number = parseInt(req.query.page as any) || 1;
+  const perPage = 9;
   try {
     const products: Product[] = [];
     if (category) {
@@ -16,6 +18,8 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         .where("product.category = :category", {
           category: category.toString().trim(),
         })
+        .offset((page - 1) * perPage)
+        .limit(perPage)
         .getMany();
       products.push(...response);
     } else {

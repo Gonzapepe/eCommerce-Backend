@@ -10,6 +10,7 @@ export const validatorProduct = (
   next: NextFunction
 ) => {
   let { title, price } = req.body;
+  console.log("REQ BODYY: ", req.body);
 
   const errorsValidation: ErrorValidation[] = [];
 

@@ -30,7 +30,7 @@ export class Product extends BaseEntity {
   @Column("int", { default: 0 })
   stock!: number;
 
-  @Column("decimal", { precision: 5, scale: 2 })
+  @Column("decimal", { precision: 9, scale: 2 })
   price!: number;
 
   @Column("int", { default: 0 })

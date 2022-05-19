@@ -21,7 +21,8 @@ const router = Router();
 
 router.post(
   "/",
-  [validatorProduct, checkJwt, checkRole(["ADMINISTRATOR"])],
+  [checkJwt, checkRole(["ADMINISTRATOR"])],
+  multer.single("image"),
   create
 );
 
