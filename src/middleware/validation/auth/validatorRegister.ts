@@ -21,7 +21,7 @@ export const validatorRegister = (
   confirmPassword = !confirmPassword ? "" : confirmPassword;
   phone = !phone ? "" : phone;
 
-  const phoneRegex = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+  const phoneRegex = /^(\+?)(\-*\s*[0-9]){10,13}/;
   const validatedPhone = phoneRegex.test(phone);
 
   if (!validator.isEmail(email)) {
@@ -45,7 +45,7 @@ export const validatorRegister = (
   }
 
   if (validatedPhone === false) {
-    errorsValidation.push({ phone: "Teléfono inválido" });
+    errorsValidation.push({ phone: "Teléfono inválido. Ingrese sólo números" });
   }
 
   // if (!validator.isInt(phone)) {

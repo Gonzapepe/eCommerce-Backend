@@ -9,7 +9,7 @@ export const register = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { email, name, surname, phone, document, password } = req.body;
+  const { email, name, surname, phone, password } = req.body;
 
   try {
     const user = await User.findOne({ where: { email } });
@@ -64,7 +64,7 @@ export const register = async (
       return next(customError);
     }
   } catch (err) {
-    const customError = new CustomError(400, "Raw", "Error", null, err);
+    const customError = new CustomError(500, "Raw", "Error", null, err);
     return next(customError);
   }
 };
