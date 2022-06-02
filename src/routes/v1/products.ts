@@ -22,7 +22,7 @@ const router = Router();
 router.post(
   "/",
   [checkJwt, checkRole(["ADMINISTRATOR"])],
-  multer.single("image"),
+  multer.array("image", 8),
   create
 );
 
@@ -35,7 +35,7 @@ router.post("/:id", [checkJwt], add);
 router.post(
   "/:id/photo",
   [checkJwt, checkRole(["ADMINISTRATOR"])],
-  multer.single("image"),
+  multer.array("image", 8),
   uploadImage
 );
 

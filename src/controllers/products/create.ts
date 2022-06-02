@@ -12,7 +12,15 @@ export const create = async (
   const { title, stock, price, features, description, category } = req.body;
 
   console.log("REQ BODY: ", req.body);
-  console.log("REQ FILES: ", req.file);
+  console.log("REQ FILES: ", req.files);
+  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+  // Buscar forma de implementar mejor esta parte
+  let images_url: string[] = [];
+  if (Array.isArray(files)) {
+    images_url = files.map((image: any) => image.path);
+  }
+  console.log("PATH DE IMAGENES: ", images_url);
   try {
     const product = await Product.findOne({ where: { title } });
 
@@ -39,11 +47,15 @@ export const create = async (
       await Product.save(newProduct);
 
       try {
-        const newImage = new Image();
-        newImage.path = req.file.path;
-        newImage.product = newProduct;
-
-        await Image.save(newImage);
+        if (images_url.length > 0) {
+          for (let i = 0; i < images_url.length; i++) {
+            console.log("IMAGEN: ", images_url[i]);
+            const newImage = new Image();
+            newImage.path = images_url[i];
+            newImage.product = newProduct;
+            await Image.save(newImage);
+          }
+        }
 
         res.customSuccess(
           200,

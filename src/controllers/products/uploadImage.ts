@@ -25,15 +25,24 @@ export const uploadImage = async (
     }
 
     try {
-      const newImage = new Image();
-      newImage.path = req.file.path;
-      newImage.product = product;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      let images_url: string[] = [];
+      if (Array.isArray(files)) {
+        images_url = files.map((image: any) => image.path);
+      }
+      const addedImages: any[] = [];
+      if (images_url.length > 0) {
+        for (let i = 0; i < images_url.length; i++) {
+          const newImage = new Image();
+          newImage.path = images_url[i];
+          newImage.product = product;
+          await Image.save(newImage);
+          addedImages.push(newImage);
+        }
+      }
+      console.log("FILE PATHS: ", images_url);
 
-      console.log("FILE PATH: ", req.file.path);
-
-      await Image.save(newImage);
-
-      res.customSuccess(200, "Imagen agregada satisfactoriamente", newImage);
+      res.customSuccess(200, "Imagen agregada satisfactoriamente", addedImages);
     } catch (err) {
       const customError = new CustomError(400, "Raw", "Error", null, err);
       return next(customError);
