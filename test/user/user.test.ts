@@ -19,7 +19,6 @@ describe("Users API", () => {
   adminUser.name = "Brandon";
   adminUser.surname = "Mayhew";
   adminUser.email = "bradonmayhew@test.com";
-  adminUser.document = 44184897;
   adminUser.phone = 91142469624;
   adminUser.password = userPassword;
   adminUser.hashPassword();
@@ -31,7 +30,6 @@ describe("Users API", () => {
   standardUser.name = "Todd";
   standardUser.surname = "Alquist";
   standardUser.email = "toddalquist@test.com";
-  standardUser.document = 29127127;
   standardUser.phone = 91192458623;
   standardUser.password = userPassword;
   standardUser.hashPassword();

@@ -23,7 +23,6 @@ describe("Cart and CartItems API", () => {
   standardUser.name = "asdasd";
   standardUser.surname = "Mayhew";
   standardUser.email = "eqweqweqw@test.com";
-  standardUser.document = 42884897;
   standardUser.phone = 911444569624;
   standardUser.cart = cart;
   standardUser.password = userPassword;

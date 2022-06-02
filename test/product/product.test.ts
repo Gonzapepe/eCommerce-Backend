@@ -22,7 +22,6 @@ describe("Products API", () => {
   adminUser.name = "asdasd";
   adminUser.surname = "Mayhew";
   adminUser.email = "eqweqweqw@test.com";
-  adminUser.document = 42884897;
   adminUser.phone = 911444569624;
   adminUser.password = userPassword;
   adminUser.hashPassword();
