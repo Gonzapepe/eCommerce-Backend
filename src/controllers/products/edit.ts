@@ -2,11 +2,20 @@ import { Request, Response, NextFunction } from "express";
 
 import { Product } from "../../typeorm/entities/products/Product";
 import { CustomError } from "../../utils/response/custom-error/CustomError";
+import { Image } from "../../typeorm/entities/images/Images";
 
 export const edit = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
 
   const { title, description, stock, price, features, category } = req.body;
+
+  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+  let images_url: string[] = [];
+  if (Array.isArray(files)) {
+    images_url = files.map((image: any) => image.path);
+  }
+  console.log("PATH DE IMAGENES: ", images_url);
   try {
     const product = await Product.findOne({ where: { id } });
     if (!product) {
@@ -29,10 +38,27 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
       await Product.save(product);
-      res.customSuccess(
-        200,
-        "Cambios del producto guardados satisfactoriamente"
-      );
+      try {
+        if (images_url.length > 0) {
+          for (let i = 0; i < images_url.length; i++) {
+            console.log("IMAGEN: ", images_url[i]);
+            const newImage = new Image();
+            newImage.path = images_url[i];
+            newImage.product = product;
+            await Image.save(newImage);
+          }
+        }
+      } catch (err) {
+        const customError = new CustomError(
+          400,
+          "Raw",
+          `Error guardando imagenes`,
+          null,
+          err
+        );
+
+        return next(customError);
+      }
     } catch (err) {
       const customError = new CustomError(
         409,

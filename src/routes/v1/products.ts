@@ -6,6 +6,7 @@ import {
   destroy,
   edit,
   show,
+  showImages,
   addSub,
   removeSub,
   uploadImage,
@@ -30,6 +31,8 @@ router.get("/", list);
 
 router.get("/:id", show);
 
+router.get("/:id/photos", showImages);
+
 router.post("/:id", [checkJwt], add);
 
 router.post(
@@ -41,7 +44,12 @@ router.post(
 
 router.delete("/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], destroy);
 
-router.patch("/:id", [checkJwt, checkRole(["ADMINISTRATOR"])], edit);
+router.patch(
+  "/:id",
+  [checkJwt, checkRole(["ADMINISTRATOR"])],
+  multer.array("image", 8),
+  edit
+);
 
 router.delete(
   "/:id/deleteimage/:imgId",

@@ -7,3 +7,4 @@ export * from "./addSub";
 export * from "./removeSub";
 export * from "./uploadImage";
 export * from "./deleteImage";
+export * from "./showImages";

@@ -11,8 +11,6 @@ export const create = async (
 ) => {
   const { title, stock, price, features, description, category } = req.body;
 
-  console.log("REQ BODY: ", req.body);
-  console.log("REQ FILES: ", req.files);
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
   // Buscar forma de implementar mejor esta parte
