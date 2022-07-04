@@ -2,17 +2,18 @@ import { Request, Response, NextFunction } from "express";
 import { Product } from "../../typeorm/entities/products/Product";
 
 import { CustomError } from "../../utils/response/custom-error/CustomError";
-import { createQueryBuilder, getRepository } from "typeorm";
+import { getRepository } from "typeorm";
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
   const { category } = req.query;
   const page: number = parseInt(req.query.page as any) || 1;
-  const perPage = 9;
+  const perPage = parseInt(req.query.perpage as any) || 6;
+  let total = 0;
   try {
     const products: Product[] = [];
     if (category) {
-      const response = await getRepository(Product)
-        .createQueryBuilder("product")
+      const response = getRepository(Product).createQueryBuilder("product");
+      const getProducts = await response
         .leftJoinAndSelect("product.subcategories", "products")
         .leftJoinAndSelect("product.images", "images")
         .where("product.category = :category", {
@@ -21,17 +22,30 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         .offset((page - 1) * perPage)
         .limit(perPage)
         .getMany();
-      products.push(...response);
+      total = await response.getCount();
+      products.push(...getProducts);
     } else {
-      const response = await getRepository(Product)
-        .createQueryBuilder("product")
+      const response = getRepository(Product).createQueryBuilder("product");
+
+      const getProducts = await response
         .leftJoinAndSelect("product.subcategories", "products")
         .leftJoinAndSelect("product.images", "images")
+        .offset((page - 1) * perPage)
+        .limit(perPage)
         .getMany();
-      products.push(...response);
+
+      total = await response.getCount();
+
+      products.push(...getProducts);
     }
+
     // asdiajsidoajoadsjasdadasda
-    res.customSuccess(200, "Lista de productos: ", products);
+    res.customSuccess(200, "Lista de productos: ", {
+      products,
+      total,
+      page,
+      last_page: Math.ceil(total / perPage),
+    });
   } catch (err) {
     const customError = new CustomError(
       400,
