@@ -19,8 +19,8 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         .where("product.category = :category", {
           category: category.toString().trim(),
         })
-        .offset((page - 1) * perPage)
-        .limit(perPage)
+        .skip((page - 1) * perPage)
+        .take(perPage)
         .getMany();
       total = await response.getCount();
       products.push(...getProducts);
@@ -30,8 +30,8 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
       const getProducts = await response
         .leftJoinAndSelect("product.subcategories", "products")
         .leftJoinAndSelect("product.images", "images")
-        .offset((page - 1) * perPage)
-        .limit(perPage)
+        .skip((page - 1) * perPage)
+        .take(perPage)
         .getMany();
 
       total = await response.getCount();
