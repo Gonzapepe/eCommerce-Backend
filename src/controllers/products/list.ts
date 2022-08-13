@@ -39,7 +39,8 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
       products.push(...getProducts);
     }
 
-    // asdiajsidoajoadsjasdadasda
+    // Devuelve un JSON con los productos, el total de la cantidad de los productos
+    // las paginas y la última página
     res.customSuccess(200, "Lista de productos: ", {
       products,
       total,
