@@ -8,10 +8,11 @@ import {
   BaseEntity,
   JoinColumn,
   OneToOne,
+  OneToMany,
 } from "typeorm";
 import { Cart } from "../cart/Cart";
-
 import { Role } from "./types";
+import { Order } from "../orders/Orders";
 
 @Entity()
 export class User extends BaseEntity {
@@ -45,6 +46,12 @@ export class User extends BaseEntity {
   })
   @JoinColumn({ name: "cartId" })
   cart!: Cart;
+
+  @OneToMany(() => Order, (order) => order.user, {
+    nullable: true,
+    onDelete: "CASCADE",
+  })
+  orders!: Order[];
 
   @Column()
   @CreateDateColumn()
