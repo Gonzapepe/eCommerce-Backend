@@ -4,7 +4,7 @@ import {
   BaseEntity,
   JoinColumn,
   Entity,
-  OneToMany,
+  ManyToMany,
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
@@ -17,8 +17,8 @@ export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: string;
 
-  @Column()
-  items!: Product[];
+  // @Column()
+  // items!: Product[];
 
   @Column("decimal", { precision: 9, scale: 2, default: 0 })
   total!: number;
@@ -30,6 +30,9 @@ export class Order extends BaseEntity {
     onDelete: "CASCADE",
   })
   user!: User;
+
+  @ManyToMany(() => Product, (product) => product.orders)
+  products!: Product[];
 
   @Column()
   @CreateDateColumn()

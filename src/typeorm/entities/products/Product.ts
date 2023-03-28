@@ -10,6 +10,7 @@ import {
 import { CartItem } from "../cart/CartItems";
 import { Subcategory } from "../categories/Subcategory";
 import { Image } from "../images/Images";
+import { Order } from "../orders/Orders";
 
 type Category =
   | "muebles"
@@ -51,4 +52,10 @@ export class Product extends BaseEntity {
 
   @ManyToMany(() => Subcategory, (subcategory) => subcategory.products)
   subcategories: Subcategory[];
+
+  @ManyToMany(() => Order, (order) => order.products, {
+    nullable: true,
+    onDelete: "SET NULL",
+  })
+  orders!: Order[];
 }
