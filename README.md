@@ -2,15 +2,24 @@
 
 Backend of Casa Bianco's webpage.
 
-## Running Migrations
+## Generating Migrations
 
-To run the migrations, do the following:
+To generate the migrations, do the following:
 
 ```bash
 npm run typeorm migration:generate -- -n NameOfTheMigration
 ```
 
 And ensure you have synchronize set to false in ormconfig.ts
+
+## Running Migrations
+
+To run a migration, make sure to run the following command: `
+```bash
+npm run typeorm migration:run
+```
+
+This piece of code will run all pending migrations.
 
 ## .env Variables needed
 
