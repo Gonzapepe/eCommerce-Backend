@@ -7,7 +7,7 @@ import { getRepository } from "typeorm";
 export const list = async (req: Request, res: Response, next: NextFunction) => {
   const { category } = req.query;
   const page: number = parseInt(req.query.page as any) || 1;
-  const perPage = parseInt(req.query.perpage as any) || 6;
+  const perPage: number = parseInt(req.query.perpage as any) || 6;
   let total = 0;
   try {
     const products: Product[] = [];

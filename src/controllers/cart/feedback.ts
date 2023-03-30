@@ -6,6 +6,7 @@ import { Cart } from "../../typeorm/entities/cart/Cart";
 import { getConnection, getRepository } from "typeorm";
 import { CartItem } from "../../typeorm/entities/cart/CartItems";
 import { Product } from "../../typeorm/entities/products/Product";
+import { Order } from "../../typeorm/entities/orders/Orders";
 
 export const feedback = async (
   req: Request,
@@ -33,6 +34,12 @@ export const feedback = async (
       .where("cart.id = :id", { id: user.cartId })
       .getOne();
 
+    const order = new Order();
+
+    order.total = cart.total;
+
+    order.created_at = new Date();
+
     // Para hacer: 2 transacciones, la primera que elimine la cantidad de stock que tenia el cliente en el carrito en los determinados productos,
     // La segunda transaccion, que elimine el total del carrito del cliente
     getConnection().transaction(async (tm) => {
@@ -56,6 +63,11 @@ export const feedback = async (
       const product = await Product.findOne({
         where: { id: response.product.id },
       });
+
+      // Pusheamos el producto a la orden
+      order.products.push(product);
+
+      // Restamos el stock por la cantidad comprada
       product.stock = product.stock - item.quantity;
 
       await Product.save(product);
@@ -74,7 +86,11 @@ export const feedback = async (
       Number(req.query.payment_id)
     );
 
+    // Guardamos la orden
+    await Order.save(order);
+
     const status = payment.body.status;
+    console.log("STATUS: ", status);
     // if (status === "approved") {
     // }
     res.customSuccess(200, "Pago acreditado", {
