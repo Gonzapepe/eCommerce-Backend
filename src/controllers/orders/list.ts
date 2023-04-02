@@ -41,3 +41,5 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
     return next(customError);
   }
 };
+
+// TODO: filter by date with queries
