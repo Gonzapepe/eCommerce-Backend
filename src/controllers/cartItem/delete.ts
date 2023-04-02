@@ -18,7 +18,7 @@ export const deleteItem = async (
     const user = await User.findOne(id);
     if (!user) {
       const customError = new CustomError(404, "General", "Not Found", [
-        `User with id:${id} doesn't exists.`,
+        `User with id:${id} doesn't exist.`,
       ]);
       return next(customError);
     }
