@@ -23,8 +23,8 @@ export class Order extends BaseEntity {
   @Column("decimal", { precision: 9, scale: 2, default: 0 })
   total!: number;
 
-  @Column()
-  delivered_date: Date;
+  @Column({ nullable: true })
+  delivered_date!: Date;
 
   @ManyToOne(() => User, (user) => user.orders, {
     onDelete: "CASCADE",
