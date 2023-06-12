@@ -10,6 +10,14 @@ import {
 } from "typeorm";
 import { Product } from "../products/Product";
 
+type Category =
+  | "muebles"
+  | "pisos"
+  | "sanitarios"
+  | "cocina"
+  | "accesorios"
+  | "pinturas";
+
 @Entity()
 export class Subcategory extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
@@ -20,6 +28,9 @@ export class Subcategory extends BaseEntity {
 
   @Column({ default: 0 })
   count!: number;
+
+  @Column({ default: "pinturas", nullable: true })
+  category!: Category;
 
   @ManyToMany(() => Product, (product) => product.subcategories, {
     nullable: true,

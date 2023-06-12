@@ -6,7 +6,7 @@ import { Subcategory } from "../../typeorm/entities/categories/Subcategory";
 import { Product } from "../../typeorm/entities/products/Product";
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
-  const { name } = req.query;
+  const { name, category } = req.query;
 
   if (name) {
     const names = name.toString().split(",");
@@ -39,11 +39,16 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
     res.customSuccess(200, "Productos: ", products);
   } else {
     try {
-      const subcategories = await getRepository(Subcategory)
+      const query = await getRepository(Subcategory)
         .createQueryBuilder("subcategory")
-        .leftJoinAndSelect("subcategory.products", "subcategories")
-        .getMany();
+        .leftJoinAndSelect("subcategory.products", "subcategories");
 
+      // If category exists then we add the where clause to the query
+      if (category) {
+        query.where("subcategory.category = :category", { category });
+      }
+
+      const subcategories = await query.getMany();
       if (!subcategories) {
         const customError = new CustomError(
           404,
