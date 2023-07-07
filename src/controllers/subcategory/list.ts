@@ -7,6 +7,9 @@ import { Product } from "../../typeorm/entities/products/Product";
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
   const { name, category } = req.query;
+  const page: number = parseInt(req.query.page as any) || 1;
+  const perPage: number = parseInt(req.query.perpage as any) || 6;
+  let total = 0;
 
   if (name) {
     const names = name.toString().split(",");
@@ -39,16 +42,23 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
     res.customSuccess(200, "Productos: ", products);
   } else {
     try {
-      const query = await getRepository(Subcategory)
-        .createQueryBuilder("subcategory")
-        .leftJoinAndSelect("subcategory.products", "subcategories");
-
+      const query = await getRepository(Subcategory).createQueryBuilder(
+        "subcategory"
+      );
       // If category exists then we add the where clause to the query
       if (category) {
         query.where("subcategory.category = :category", { category });
       }
 
-      const subcategories = await query.getMany();
+      const subcategories = await query
+        .skip((page - 1) * perPage)
+        .take(perPage)
+        .getMany();
+
+      console.log("SUBCATEGORIES: ", subcategories);
+      // Grabs the total of subcategories and counts it
+      total = await query.getCount();
+
       if (!subcategories) {
         const customError = new CustomError(
           404,
@@ -60,7 +70,12 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         return next(customError);
       }
 
-      res.customSuccess(200, "Subcategorías: ", subcategories);
+      res.customSuccess(200, "Subcategorías: ", {
+        subcategories,
+        total,
+        page,
+        last_page: Math.ceil(total / perPage),
+      });
     } catch (err) {
       const customError = new CustomError(400, "Raw", "Error", null, err);
 

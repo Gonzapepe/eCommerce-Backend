@@ -6,7 +6,7 @@ import { CustomError } from "../../utils/response/custom-error/CustomError";
 export const edit = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
 
-  const { name } = req.body;
+  const { name, category } = req.body;
 
   try {
     const subcategory = await Subcategory.findOne({ where: { id } });
@@ -23,6 +23,7 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     subcategory.name = name;
+    subcategory.category = category;
     try {
       await Subcategory.save(subcategory);
       res.customSuccess(

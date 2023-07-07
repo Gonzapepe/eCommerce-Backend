@@ -8,7 +8,7 @@ export const create = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name } = req.body;
+  const { name, category } = req.body;
 
   try {
     const subcategory = await Subcategory.findOne({ where: { name } });
@@ -27,6 +27,7 @@ export const create = async (
       const newSubcategory = new Subcategory();
 
       newSubcategory.name = name;
+      newSubcategory.category = category;
 
       await Subcategory.save(newSubcategory);
 
