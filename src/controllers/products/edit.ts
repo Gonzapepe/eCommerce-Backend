@@ -70,6 +70,8 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
 
       return next(customError);
     }
+
+    res.customSuccess(200, "Producto actualizado satisfactoriamente");
   } catch (err) {
     const customError = new CustomError(400, "Raw", "Error", null, err);
 
