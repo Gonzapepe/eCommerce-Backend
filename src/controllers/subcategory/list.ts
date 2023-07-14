@@ -55,7 +55,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
         .take(perPage)
         .getMany();
 
-      console.log("SUBCATEGORIES: ", subcategories);
+      // console.log("SUBCATEGORIES: ", subcategories);
       // Grabs the total of subcategories and counts it
       total = await query.getCount();
 
