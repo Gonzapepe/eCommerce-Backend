@@ -1,4 +1,4 @@
-# Casa Bianco Backend
+# eCommerce Backend
 
 Backend of eCommerce's webpage.
 
