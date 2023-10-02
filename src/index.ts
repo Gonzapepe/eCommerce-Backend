@@ -27,8 +27,7 @@ app.use("/uploads", express.static("uploads"));
 app.use(errorHandler);
 
 mercadopago.configure({
-  access_token:
-    "TEST-736369727964382-122215-ce23a8b8c8ed6bf33195fa54ce8a1719-713640721",
+  access_token: process.env.MP_ACCESS_TOKEN,
 });
 
 const port = process.env.PORT || 4000;
