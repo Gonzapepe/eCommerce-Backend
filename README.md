@@ -23,7 +23,7 @@ Once all these steps are finished, now you need to complete the following enviro
 
 ## .env Variables needed
 
-- NODE_ENV = Needed for the processEnv.d.ts dev by default
+- NODE_ENV = dev by default
 - PORT = the Port used for the express server
 - PG_PORT = port of the postgres database
 - PG_HOST = host of the database. localhost by default
@@ -32,7 +32,7 @@ Once all these steps are finished, now you need to complete the following enviro
 - POSTGRES_DB = name of the database
 - JWT_SECRET = a random string
 - JWT_EXPIRATION = the expiration time of the tokens
-
+- MP_ACCESS_TOKEN = Mercadopago's token access for the API
 
 ## Generating Migrations
 
